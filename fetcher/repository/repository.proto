@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package fetcher;
 
-option go_package = "github.com/stuttgart-things/sweatShop-fetcher";
+option go_package = "github.com/stuttgart-things/sweatShop-fetcher/reposerver/apiclient";
 
 // Repository is a repository holding application configurations
 message Repository {
@@ -42,8 +42,8 @@ message Repository {
       bool verifiedRepository = 1;
   }
 
-  // RepoServerService
-  service RepoServerService {
+  // FetcherService
+  service FetcherService {
 
       // ListFiles returns a list of files in the repo
       rpc ListFiles(ListFilesRequest) returns (FileList) {
