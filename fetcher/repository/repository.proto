@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package fetcher;
 
-option go_package = "github.com/stuttgart-things/sweatShop-fetcher/reposerver/apiclient";
+option go_package = "github.com/stuttgart-things/sweatShop-fetcher/fetcher/apiclient";
 
 // Repository is a repository holding application configurations
 message Repository {

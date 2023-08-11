@@ -52,7 +52,7 @@ tasks:
       PROTOC_GEN_GO_VERSION: 1.28
       PROTOC_GEN_GO_GRPC_VERSION: 1.2
       PROTOC_DIR: fetcher/repository
-      GO_MODULE: github.com/stuttgart-things/sweatShop-fetcher/reposerver/apiclient
+      GO_MODULE: github.com/stuttgart-things/sweatShop-fetcher/fetcher/apiclient
       OUTPUT_DIR: fetcher/apiclient
 
   tag:
