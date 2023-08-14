@@ -1,3 +1,7 @@
+/*
+Copyright © 2023 Xiaomin Lai
+*/
+
 package git
 
 import (

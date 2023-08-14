@@ -11,7 +11,7 @@ When a request to list files of a certain pattern in a repository comes in, the 
 
 <details><summary><b>APACHE 2.0</b></summary>
 
-Copyright 2023 xiaomin.lai.
+Copyright 2023 Xiaomin Lai.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -30,6 +30,4 @@ limitations under the License.
 Author Information
 ------------------
 Xiaomin Lai, stuttgart-things 01/2023
-
-Moved to github,
-Patrick Hermann, stuttgart-things 08/2023
+Patrick Hermann, stuttgart-things 08/2023 (Moved to github)
