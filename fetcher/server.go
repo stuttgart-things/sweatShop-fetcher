@@ -11,6 +11,7 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	"github.com/stuttgart-things/sweatShop-fetcher/fetcher/apiclient"
+	"github.com/stuttgart-things/sweatShop-fetcher/fetcher/repository"
 )
 
 // RepoServer is the main struct for the repo server
@@ -22,13 +23,13 @@ type RepoServer struct {
 
 // NewRepoServer creates a new RepoServer
 func NewRepoServer(ctx context.Context) (*RepoServer, error) {
-	log.Infof("Create new repo server")
+	log.Infof("Create new sweatShop-fetcher")
 
-	repoService := repository.NewService(filepath.Join(os.TempDir(), "_yacht-repo"))
+	repoService := repository.NewService(filepath.Join(os.TempDir(), "sweatShop-fetcher"))
 	if err := repoService.Init(); err != nil {
 		return nil, err
 	}
-	log.Infof("Created and initialized new repo service")
+	log.Infof("Created and initialized new sweatShop-fetcher")
 
 	return &RepoServer{
 		repoService: repoService,
@@ -39,7 +40,7 @@ func NewRepoServer(ctx context.Context) (*RepoServer, error) {
 func (a *RepoServer) CreateGRPC() *grpc.Server {
 	server := grpc.NewServer(a.opts...)
 
-	apiclient.RegisterRepoServerServiceServer(server, a.repoService)
+	apiclient.RegisterFetcherServiceServer(server, a.repoService)
 
 	// Register reflection service on gRPC server.
 	reflection.Register(server)

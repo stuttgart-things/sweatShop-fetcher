@@ -75,3 +75,17 @@ tasks:
       - git add *
       - git commit -am 'updated {{ .PROJECT_NAME }} {{ .DATE }} for tag version {{ .UPDATED_TAG_VERSION }}{{ .BRANCH }}'
       - git push
+
+  release:
+    desc: Relase binaries
+    deps: [tag]
+    cmds:
+      - go install github.com/goreleaser/goreleaser@v{{ .GO_RELEASER_VERSION }}
+      - unset GITLAB_TOKEN
+      - goreleaser healthcheck
+      - goreleaser check
+      - goreleaser release --skip-publish --snapshot --clean
+      - goreleaser release --clean
+      - rm -rf ./dist
+    vars:
+      GO_RELEASER_VERSION: 1.20.0
