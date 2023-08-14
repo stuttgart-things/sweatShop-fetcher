@@ -29,5 +29,7 @@ limitations under the License.
 
 Author Information
 ------------------
+```bash
 Xiaomin Lai, stuttgart-things 01/2023
-Patrick Hermann, stuttgart-things 08/2023 (Moved to github)
+Patrick Hermann, stuttgart-things 08/2023 (Moved -> github)
+```
