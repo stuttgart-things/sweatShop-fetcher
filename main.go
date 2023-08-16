@@ -6,12 +6,11 @@ package main
 
 import (
 	"context"
+	"github/sweatShop-fetcher/internal"
 
 	log "github.com/sirupsen/logrus"
 
 	"net"
-
-	"github.com/stuttgart-things/sweatShop-fetcher/internal"
 
 	"github.com/stuttgart-things/sweatShop-fetcher/fetcher"
 )
