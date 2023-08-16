@@ -16,6 +16,12 @@ vars:
     sh: if [ $(git rev-parse --abbrev-ref HEAD) != "main" ]; then echo -$(git rev-parse --abbrev-ref HEAD) ; fi
 
 tasks:
+  run:
+    desc: Run app
+    deps: [build]
+    cmds:
+      - "{{ .PROJECT_NAME }}"
+
   project-init-go:
     desc: Bootstrap project
     cmds:
@@ -40,7 +46,15 @@ tasks:
     desc: Test code
     cmds:
       - go mod tidy
-      - go test ./... -v
+      - go test ./fetcher/... -v
+      - go test ./util/... -v
+
+  build:
+    desc: Build the app
+    deps: [lint, test, proto]
+    cmds:
+      - go install -ldflags="-X {{ .MODULE }}/internal.date={{ .DATE }} -X {{ .MODULE }}/internal.version={{ .UPDATED_TAG_VERSION }} -X {{ .MODULE }}/internal.commit={{ .GIT_COMMIT }}"
+      - "{{ .PROJECT_NAME }}"
 
   proto:
     desc: Generate Go code from proto file

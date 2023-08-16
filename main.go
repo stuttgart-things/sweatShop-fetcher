@@ -11,6 +11,8 @@ import (
 
 	"net"
 
+	"github.com/stuttgart-things/sweatShop-fetcher/internal"
+
 	"github.com/stuttgart-things/sweatShop-fetcher/fetcher"
 )
 
@@ -20,6 +22,8 @@ func main() {
 
 	// Set the logger to debug level
 	// log.SetLevel(log.DebugLevel)
+
+	internal.PrintBanner()
 
 	server, err := fetcher.NewRepoServer(context.Background())
 	if err != nil {

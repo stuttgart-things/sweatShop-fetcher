@@ -7,6 +7,13 @@ During the initialization of the repository service, existing repositories in th
 
 When a request to list files of a certain pattern in a repository comes in, the repository service first clone the repository into the system tmp dir, if the repository is not cloned yet. Then the service gathers files fitting the pattern and deliver a file list as output.
 
+## TESTS
+
+```
+go run tests/list-files.go
+go run tests/repo-connection.go
+```
+
 ## LICENSE
 
 <details><summary><b>APACHE 2.0</b></summary>
