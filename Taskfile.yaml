@@ -14,6 +14,8 @@ vars:
     sh: t1=$(git describe --tags --abbrev=0 | cut -f1 -d'.'); t2=$(git describe --tags --abbrev=0 | cut -f2 -d'.'); echo $t1.$t2.{{ .UPDATED_TAG }}
   BRANCH:
     sh: if [ $(git rev-parse --abbrev-ref HEAD) != "main" ]; then echo -$(git rev-parse --abbrev-ref HEAD) ; fi
+  REGISTRY: eu.gcr.io
+  REPOSITORY_NAME: stuttgart-things
 
 tasks:
   run:
@@ -22,19 +24,14 @@ tasks:
     cmds:
       - "{{ .PROJECT_NAME }}"
 
-  project-init-go:
-    desc: Bootstrap project
+  build-image:
+    desc: Build image
+    deps: [tag]
     cmds:
-      - go install github.com/goreleaser/goreleaser@latest
-      - go mod init {{ .MODULE }}
-      - go mod tidy
-      - goreleaser init
-      - git add *
-      - git add .goreleaser.yaml
-      - git commit -am 'initialized go module {{ .Module }} on {{ .DATE }}'
-      - git push
-      - git tag -a v0.1.1 -m 'initialized go module {{ .Module }} on {{ .DATE }}'
-      - git push origin --tags
+      - "{{ .CONTAINER_RUNTIME_CMD }} build -t {{ .REGISTRY }}/{{ .REPOSITORY_NAME }}/{{ lower (.PROJECT_NAME) }}:{{ .DATE }}-{{ .UPDATED_TAG_VERSION }}{{ .BRANCH }} --build-arg VERSION={{ .UPDATED_TAG_VERSION }} --build-arg BUILD_DATE={{ .DATE }} --build-arg COMMIT={{ .GIT_COMMIT }} ."
+      - "{{ .CONTAINER_RUNTIME_CMD }} push {{ .REGISTRY }}/{{ .REPOSITORY_NAME }}/{{ lower (.PROJECT_NAME) }}:{{ .DATE }}-{{ .UPDATED_TAG_VERSION }}{{ .BRANCH }}"
+    vars:
+      CONTAINER_RUNTIME_CMD: sudo nerdctl
 
   lint:
     desc: Lint code
@@ -47,6 +44,7 @@ tasks:
     cmds:
       - go mod tidy
       - go test ./fetcher/... -v
+      - go test ./internal/... -v
       - go test ./util/... -v
 
   build:
@@ -103,3 +101,17 @@ tasks:
       - rm -rf ./dist
     vars:
       GO_RELEASER_VERSION: 1.20.0
+
+  project-init-go:
+    desc: Bootstrap project
+    cmds:
+      - go install github.com/goreleaser/goreleaser@latest
+      - go mod init {{ .MODULE }}
+      - go mod tidy
+      - goreleaser init
+      - git add *
+      - git add .goreleaser.yaml
+      - git commit -am 'initialized go module {{ .Module }} on {{ .DATE }}'
+      - git push
+      - git tag -a v0.1.1 -m 'initialized go module {{ .Module }} on {{ .DATE }}'
+      - git push origin --tags
